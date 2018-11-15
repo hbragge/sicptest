@@ -1,0 +1,102 @@
+1_1_1 Expressions -- (lect 1A)
+1_1_2 Naming and the Environment                                46 (2018)
+1_1_3 Evaluating Combinations
+1_1_4 Compound Procedures                                       47
+1_1_5 The Substitution Model for Procedure Application
+1_1_6 Conditional Expressions and Predicates                    48
+1_1_7 Example: Square Roots by Newtons Method
+1_1_8 Procedures as Black-Box Abstractions                      49
+1_2_1 Linear Recursion and Iteration -- (lect 1B)               50
+1_2_2 Tree Recursion                                            52*
+1_2_3 Orders of Growth                                          1 (2019)
+1_2_4 Exponentiation                                            2
+1_2_5 Greatest Common Divisors                                  3
+1_2_6 Example: Testing for Primality                            4
+1_3_1 Procedures as Arguments -- (lect 2A)                      5
+1_3_2 Constructing Procedures Using Lambda                      10*
+1_3_3 Procedures as General Methods                             11
+1_3_4 Procedures as Returned Values                             12
+2_1_1 Example: Arithmetic Operations for Rat. Num. -- (lect 2B) 13
+2_1_2 Abstraction Barriers                                      14
+2_1_3 What Is Meant by Data?                                    15
+2_1_4 Extended Exercise: Interval Arithmetic                    16
+2_2_1 Representing Sequences -- (lect 3A)                       17
+2_2_2 Hierarchical Structures                                   18
+2_2_3 Sequences as Conventional Interfaces                      19
+2_2_4 Example: A Picture Language                               20
+2_3_1 Quotation -- (lect 3B)                                    21
+2_3_2 Example: Symbolic Differentiation                         22
+2_3_3 Example: Representing Sets                                23
+2_3_4 Example: Huffman Encoding Trees                           24
+2_4_1 Representations for Complex Numbers -- (lect 4A)          25
+2_4_2 Tagged data                                               26
+2_4_3 Data-Directed Programming and Additivity                  27
+2_5_1 Generic Arithmetic Operations -- (lect 4B)                28
+2_5_2 Combining Data of Different Types                         29
+2_5_3 Example: Symbolic Algebra                                 30
+3_1_1 Local State Variables -- (lect 5A)                        31
+3_1_2 The Benefits of Introducing Assignment                    32
+3_1_3 The Costs of Introducing Assignment                       34*
+3_2_1 The Rules for Evaluation                                  35
+3_2_2 Applying Simple Procedures                                36
+3_2_3 Frames as the Repository of Local State                   37
+3_2_4 Internal Definitions                                      38
+3_3_1 Mutable List Structure -- (lect 5B)                       39
+3_3_2 Representing Queues                                       40
+3_3_3 Representing Tables                                       41
+3_3_4 A Simulator for Digital Circuits                          42
+3_3_5 Propagation of Constraints                                43
+3_4_1 The Nature of Time in Concurrent Systems                  44
+3_4_2 Mechanisms for Controlling Concurrency                    45
+3_5_1 Streams Are Delayed Lists -- (lect 6A)                    46
+3_5_2 Infinite Streams                                          47
+3_5_3 Exploiting the Stream Paradigm                            48
+3_5_4 Streams and Delayed Evaluation -- (lect 6B)               49
+3_5_5 Modularity of Functional Programs and Modularity of Obj   50
+4_1_1 The Core of the Evaluator -- (lect 7A)                    52*
+4_1_2 Representing Expressions                                  1 (2020)
+4_1_3 Evaluator Data Structures                                 2
+4_1_4 Running the Evaluator as a Program                        3
+4_1_5 Data as Programs                                          4
+4_1_6 Internal Definitions                                      5
+4_1_7 Separating Syntactic Analysis from Execution              10*
+4_2_1 Normal Order and Applicative Order -- (lect 7B)           11
+4_2_2 An Interpreter with Lazy Evaluation                       12
+4_2_3 Streams as Lazy Lists                                     13
+4_3_1 Amb and Search                                            14
+4_3_2 Examples of Nondeterministic Programs                     15
+4_3_3 Implementing the Amb Evaluator                            16
+4_4_1 Deductive Information Retrieval (-- lect 8A)              17
+4_4_2 How the Query System Works                                18
+4_4_3 Is Logic Programming Mathematical Logic?                  19
+4_4_4 Implementing the Query System (-- lect 8B)                20
+4_4_4_1 The Driver Loop and Instantiation                       21
+4_4_4_2 The Evaluator                                           22
+4_4_4_3 Finding Assertions by Pattern Matching                  23
+4_4_4_4 Rules and Unification                                   24
+4_4_4_5 Maintaining the Data Base                               25
+4_4_4_6 Stream Operations                                       26
+4_4_4_7 Query Syntax Procedures                                 27
+4_4_4_8 Frames and Bindings                                     28
+5_1_1 A Language for Describing Register Machines (-- lect 9A)  29
+5_1_2 Abstraction in Machine Design                             30
+5_1_3 Subroutines                                               31
+5_1_4 Using a Stack to Implement Recursion                      32
+5_1_5 Instruction Summary                                       34*
+5_2_1 The Machine Model                                         35
+5_2_2 The Assembler                                             36
+5_2_3 Generating Execution Procedures for Instructions          37
+5_2_4 Monitoring Machine Performance                            38
+5_3_1 Memory as Vectors (-- lect 10B)                           39
+5_3_2 Maintaining the Illusion of Infinite Memory               40
+5_4_1 The Core of the Explicit-Control Evaluator (-- lect 9B)   41
+5_4_2 Sequence Evaluation and Tail Recursion                    42
+5_4_3 Conditionals, Assignments, and Definitions                43
+5_4_4 Running the Evaluator                                     44
+5_5_1 Structure of the Compiler (-- lect 10A)                   45
+5_5_2 Compiling Expressions                                     46
+5_5_3 Compiling Combinations                                    47
+5_5_4 Combining Instruction Sequences                           48
+5_5_5 An Example of Compiled Code                               49
+5_5_6 Lexical Addressing                                        50
+5_5_7 Interfacing Compiled Code to the Evaluator                53*
