@@ -1,0 +1,6 @@
+(require sicp)
+(require r5rs)
+
+#lang sicp
+(inc 42)
+
