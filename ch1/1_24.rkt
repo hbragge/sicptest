@@ -18,18 +18,9 @@
       1
       0))
 
-(define (start-prime-test n start-time)
-  (display (prime n))
-  (report-prime (- (runtime) start-time)))
-
 (define (report-prime elapsed-time)
   (display " *** ")
   (display elapsed-time))
-
-(define (timed-prime-test n)
-  (newline)
-  (display n)
-  (start-prime-test n (runtime)))
 
 (define (check-for-primes n)
   (define (end-test total start-time)
@@ -42,10 +33,33 @@
   (define (iter i total start-time)
     (if (= total 3)
         (end-test total start-time)
-        (iter (+ i 1) (+ total (prime i)) start-time)))
+        (iter (+ i 1) (+ total (fprime i)) start-time)))
   (iter n 0 (runtime)))
 
-;(timed-prime-test 1999)
-(check-for-primes 100000000000)
-;(check-for-primes 1000000000000)
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (square (expmod base (/ exp 2) m))
+                    m))
+        (else
+         (remainder (* base (expmod base (- exp 1) m))
+                    m))))
+
+(define (fermat-test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (try-it (+ 1 (random (- n 1)))))
+
+(define (fast-prime n times)
+  (cond ((= times 0) 1)
+        ((fermat-test n) (fast-prime n (- times 1)))
+        (else 0)))
+
+(define (fprime n)
+  (fast-prime n 10))
+
+(check-for-primes 10000000)
+(check-for-primes 10000000)
+(check-for-primes 1000000000)
+(check-for-primes 1000000000)
 ;(check-for-primes 10000000000000)
