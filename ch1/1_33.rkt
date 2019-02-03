@@ -1,7 +1,7 @@
 #lang racket
 
 (define (sq x) (* x x)) 
-  
+
 (define (inc n) (+ n 1)) 
 
 (define (id n) n)
@@ -42,5 +42,21 @@
 (define (sump term a next b)
   (fiacc + 0 term a next b prime?))
 
+(define (gcd m n) 
+  (cond ((< m n) (gcd n m)) 
+        ((= n 0) m) 
+        (else (gcd n (remainder m n))))) 
+
+(define (relative-prime? m n) 
+  (= (gcd m n) 1)) 
+
+(define (prodrp n)
+  (define (relp? m)
+    (relative-prime? m n))
+  (fiacc * 1 id 1 inc n relp?))
+
+
+
 (sum sq 3 inc 5)
 (sump sq 3 inc 5)
+(prodrp 5)
