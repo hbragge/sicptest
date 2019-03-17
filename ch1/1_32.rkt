@@ -10,8 +10,6 @@
       (* (term a) 
          (prod term (next a) next b)))) 
 
-(prod sq 2 inc 3)
-
 (define (iprod term a next b)
   (define (iter a result)
     (if (> a b)
@@ -19,14 +17,14 @@
         (iter (next a) (* result (term a)))))
   (iter a 1))
 
-(iprod sq 2 inc 3)
-
 (define (id x) x)
 
 (define (fact n)
   (iprod id 1 inc n))
 
-(fact 5)
+;(prod sq 2 inc 3)
+;(iprod sq 2 inc 3)
+;(fact 5)
 
 ;pi = 2 4 4 6 6 8 8
 ;4    3 3 5 5 7 7 9
