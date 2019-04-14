@@ -19,13 +19,17 @@
 (define (c2int cn)
   ((cn (lambda (n) (+ n 1))) 0))
 
+(define one (add1 zero))
+(define two (add2 zero))
+
 (c2int zero)
-(c2int (add1 zero))
-(c2int (add2 zero))
-(c2int (add2 (add1 zero)))
+(c2int one)
+(c2int two)
+(c2int (add2 one))
 
 (define (add a b)
   (lambda (f)
     (lambda (x)
       ((a f) ((b f) x)))))
 
+(c2int (add one two))
