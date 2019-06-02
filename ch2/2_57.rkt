@@ -11,7 +11,10 @@
 (define (sum? x)
   (and (pair? x) (eq? (car x) '+)))
 (define (addend s) (cadr s))
-(define (augend s) (caddr s))
+(define (augend s)
+  (if (> (length s) 3)
+      (make-sum (addend (cdr s)) (augend (cdr s)))
+      (caddr s)))
 
 (define (make-sum a1 a2)
   (cond ((=number? a1 0) a2)
@@ -22,7 +25,10 @@
 (define (product? x)
   (and (pair? x) (eq? (car x) '*)))
 (define (multiplier p) (cadr p))
-(define (multiplicand p) (caddr p))
+(define (multiplicand p)
+  (if (> (length p) 3)
+      (make-product (multiplier (cdr p)) (multiplicand (cdr p)))
+      (caddr p)))
 
 (define (make-product m1 m2)
   (cond ((or (=number? m1 0) (=number? m2 0)) 0)
@@ -65,5 +71,6 @@
          (error "unknown expression type -- DERIV" exp))))
 
 (deriv '(* (* x y) (+ x 3)) 'x)
+(deriv '(* x y (+ x 3)) 'x)
 (deriv '(** (* x y) 2) 'x)
-(deriv '(* x y) 'x)
+(deriv '(+ x (* 3 (+ x (+ y 2)))) 'x)
