@@ -69,3 +69,13 @@
 
 (addr (get-record '(firm2 Sami) f2))
 (salary (get-record '(firm2 Sami) f2))
+
+(define (find-record n files)
+  (if (empty? files)
+      null
+      (let ((first (get-record (list (type-tag (car files)) n) (car files))))
+        (if (not (empty? first))
+            first
+            (find-record n (cdr files))))))
+
+(find-record 'Kari (list f1 f2))
