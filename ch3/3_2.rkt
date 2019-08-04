@@ -1,0 +1,21 @@
+#lang racket
+
+(define (make-monitored f)
+  (let ((count 0))
+    (lambda (val)
+      (if (number? val)
+          (begin (set! count (+ count 1))
+                 (f val))
+          (if (symbol? val)
+              (cond ((eq? val 'how-many-calls?) count)
+                    ((eq? val 'reset-count) (set! count 0))
+                    (else (error "Unknown command" val)))
+              (error "Unknown param type"))))))
+
+(define s (make-monitored sqrt))
+(s 100)
+(s 'how-many-calls?)
+(s 36)
+(s 'how-many-calls?)
+(s 'reset-count)
+(s 'how-many-calls?)
