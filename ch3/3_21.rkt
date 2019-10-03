@@ -52,7 +52,7 @@
         'done
         (begin
           (display (car l))
-          (display "\n")
+          (newline)
           (print-list (cdr l)))))
   (print-list (front-ptr queue)))
 
