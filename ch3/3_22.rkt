@@ -1,0 +1,53 @@
+#lang sicp
+
+(define (make-queue)
+  (let ((front-ptr '())
+        (rear-ptr '()))
+    (define (empty-queue?) (null? front-ptr))
+    (define (insert-queue! item)
+      (let ((new-pair (cons item '())))
+        (cond ((empty-queue?)
+               (set! front-ptr new-pair)
+               (set! rear-ptr new-pair))
+              (else
+               (set-cdr! rear-ptr new-pair)
+               (set! rear-ptr new-pair)))))
+    (define (delete-queue!)
+      (if (empty-queue?)
+          (error "called delete with empty queue")
+          (set! front-ptr (cdr front-ptr))))
+    (define (print-queue)
+      (define (iter l)
+        (if (null? l)
+            'done
+            (begin
+              (display (car l))
+              (newline)
+              (iter (cdr l)))))
+      (iter front-ptr))
+    (define (dispatch m)
+      (cond ((eq? m 'insert-queue!) insert-queue!)
+            ((eq? m 'delete-queue!) delete-queue!)
+            ((eq? m 'print-queue) print-queue)
+            (else (error "Invalid command" m))))
+    dispatch))
+
+(define (insert-queue! queue item)
+  ((queue 'insert-queue!) item))
+
+(define (delete-queue! queue)
+  ((queue 'delete-queue!)))
+
+(define (print-queue queue)
+  ((queue 'print-queue)))
+
+(define q1 (make-queue))
+(print-queue q1)
+(insert-queue! q1 'a)
+(print-queue q1)
+(insert-queue! q1 'b)
+(print-queue q1)
+(delete-queue! q1)
+(print-queue q1)
+(delete-queue! q1)
+(print-queue q1)

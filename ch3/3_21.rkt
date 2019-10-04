@@ -32,20 +32,6 @@
          (set-front-ptr! queue (cdr (front-ptr queue)))
          queue)))
 
-(define (print-queue-dbg queue)
-  (if (or (null? queue) (empty-queue? queue))
-      'done
-      (if (null? (front-ptr queue))
-          'done
-          (begin
-            (display (front-ptr queue))
-            (display "\n")
-            (display (car (front-ptr queue)))
-            (display "\n")
-            (display (cdr (front-ptr queue)))
-            (display "\n\n")
-            (print-queue (cdr (front-ptr queue)))))))
-
 (define (print-queue queue)
   (define (print-list l)
     (if (null? l)
