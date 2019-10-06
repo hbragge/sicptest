@@ -1,0 +1,61 @@
+#lang sicp
+
+(define entry car)
+(define left-branch cadr)
+(define right-branch caddr)
+(define make-tree list)
+
+(define record-key car)
+(define record-value cdr)
+(define make-record cons)
+
+(define (adjoin-set r set)
+  (cond ((null? set) (make-tree r '() '()))
+        ((< (record-key r) (record-key (entry set)))
+         (make-tree (entry set)
+                    (adjoin-set r (left-branch set))
+                    (right-branch set)))
+        ((> (record-key r) (record-key (entry set)))
+         (make-tree (entry set)
+                    (left-branch set)
+                    (adjoin-set r (right-branch set))))
+        (else set)))
+
+(define (assoc key records)
+  (cond ((null? records) false)
+        ((< key (record-key (entry records)))
+         (display "left\n")
+         (assoc key (left-branch records)))
+        ((> key (record-key (entry records)))
+         (display "right\n")
+         (assoc key (right-branch records)))
+        (else (entry records))))
+
+(define (make-table)
+  (let ((local-table (list '*table*)))
+    (define (lookup key)
+      (let ((record (assoc key (cdr local-table))))
+        (if record
+            (cdr record)
+            false)))
+    (define (insert! key value)
+      (let ((record (assoc key (cdr local-table))))
+        (if record
+            (set-cdr! record value)
+            (set-cdr! local-table
+                      (adjoin-set (make-record key value) (cdr local-table))))))
+    (define (dispatch m)
+      (cond ((equal? m 'lookup-proc) lookup)
+            ((equal? m 'insert-proc!) insert!)
+            (else (error "Unknown operation -- TABLE" m))))
+    dispatch))
+
+(define op-table (make-table))
+(define get (op-table 'lookup-proc))
+(define put (op-table 'insert-proc!))
+
+(put 2 'one)
+(put 1 'two)
+(put 3 'three)
+(display "\n")
+(get 3)
