@@ -187,7 +187,7 @@
   (add-action! a1 and-action-procedure)
   (add-action! a2 and-action-procedure))
 
-(define (or-gate-orig o1 o2 output)
+(define (or-gate o1 o2 output)
   (define (or-action-procedure)
     (let ((new-value
            (logical-or (get-signal o1) (get-signal o2))))
@@ -196,19 +196,6 @@
                      (set-signal! output new-value)))))
   (add-action! o1 or-action-procedure)
   (add-action! o2 or-action-procedure))
-
-; or gate using and-gates and inveters (delay: 2+3+2=7)
-; a || b -> !(!a && !b)
-; 0 || 0 -> !(1  && 1)  = 0
-; 1 || 0 -> !(0  && 1)  = 1
-; 0 || 1 -> !(1  && 0)  = 1
-; 1 || 1 -> !(0  && 0)  = 1
-(define (or-gate o1 o2 output)
-  (let ((o1inv (make-wire)) (o2inv (make-wire)) (both (make-wire)))
-    (inverter o1 o1inv)
-    (inverter o2 o2inv)
-    (and-gate o1inv o2inv both)
-    (inverter both output)))
 
 (define (half-adder a b s c)
   (let ((d (make-wire)) (e (make-wire)))
@@ -225,13 +212,25 @@
     (half-adder a s sum c2)
     (or-gate c1 c2 c-out)))
 
+(define (rc-adder as bs ss c)
+  (let ((c-in (make-wire)))
+    (if (not (null? (cdr as)))
+        (rc-adder (cdr as) (cdr bs) (cdr ss) c-in))
+    (full-adder (car as) (car bs) c-in (car ss) c)))
+
 ; testing
-(define input-1 (make-wire))
-(define input-2 (make-wire))
-(define sum (make-wire))
-(define carry (make-wire))
-(probe 'sum sum)
-(probe 'carry carry)
-(half-adder input-1 input-2 sum carry)
-(set-signal! input-1 1)
+(define as (list (make-wire) (make-wire)))
+(define bs (list (make-wire) (make-wire)))
+(define ss (list (make-wire) (make-wire)))
+(define c (make-wire))
+(probe 's1 (car ss))
+(probe 's2 (cadr ss))
+(rc-adder as bs ss c)
+(set-signal! (car as) 1)
+(propagate)
+(set-signal! (cadr as) 1)
+(propagate)
+(set-signal! (car bs) 1)
+(propagate)
+(set-signal! (cadr bs) 1)
 (propagate)

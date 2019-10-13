@@ -2,18 +2,23 @@
 
 (define (call-each procedures)
   (if (null? procedures)
-      'done
+      'call-each-done
       (begin
         ((car procedures))
         (call-each (cdr procedures)))))
 
-(define (make-wire)
+(define (make-wire name)
   (let ((signal-value 0) (action-procedures '()))
     (define (set-my-signal! new-value)
       (if (not (= signal-value new-value))
-          (begin (set! signal-value new-value)
+          (begin (display "set signal ")
+                 (display name)
+                 (display " = ")
+                 (display new-value)
+                 (display "\n")
+                 (set! signal-value new-value)
                  (call-each action-procedures))
-          'done))
+          'set-my-signal-done))
     (define (accept-action-procedure! proc)
       (set! action-procedures (cons proc action-procedures))
       (proc))
@@ -35,7 +40,7 @@
   (let ((front-ptr '())
         (rear-ptr '()))
     (define (empty-queue?) (null? front-ptr))
-    (define (insert-queue! item)
+    (define (insert-queue2! item)
       (let ((new-pair (cons item '())))
         (cond ((empty-queue?)
                (set! front-ptr new-pair)
@@ -43,6 +48,16 @@
               (else
                (set-cdr! rear-ptr new-pair)
                (set! rear-ptr new-pair)))))
+    ; insert to front instead of back, will not work because
+    ; because in that case older (incorrect) value will be set as output
+    (define (insert-queue! item)
+      (let ((new-pair (cons item '())))
+        (cond ((empty-queue?)
+               (set! front-ptr new-pair)
+               (set! rear-ptr new-pair))
+              (else
+               (set-cdr! new-pair front-ptr)
+               (set! front-ptr new-pair)))))
     (define (delete-queue!)
       (if (empty-queue?)
           (error "called delete with empty queue")
@@ -106,7 +121,7 @@
               (set-cdr!
                segments
                (cons (make-new-time-segment time action)
-                     (cdr segments)))
+                     rest))
               (add-to-segments! rest)))))
   (let ((segments (segments agenda)))
     (if (belongs-before? segments)
@@ -136,7 +151,7 @@
 
 (define (propagate)
   (if (empty-agenda? the-agenda)
-      'done
+      'propagate-done
       (let ((first-item (first-agenda-item the-agenda)))
         (first-item)
         (remove-first-agenda-item! the-agenda)
@@ -169,69 +184,31 @@
       1
       0))
 
-(define (inverter input output)
-  (define (invert-input)
-    (let ((new-value (logical-not (get-signal input))))
-      (after-delay inverter-delay
-                   (lambda ()
-                     (set-signal! output new-value)))))
-  (add-action! input invert-input))
-
 (define (and-gate a1 a2 output)
   (define (and-action-procedure)
     (let ((new-value
            (logical-and (get-signal a1) (get-signal a2))))
+      (display "and action called, new value = ")
+      (display new-value)
+      (display "\n")
       (after-delay and-gate-delay
                    (lambda ()
                      (set-signal! output new-value)))))
   (add-action! a1 and-action-procedure)
   (add-action! a2 and-action-procedure))
 
-(define (or-gate-orig o1 o2 output)
-  (define (or-action-procedure)
-    (let ((new-value
-           (logical-or (get-signal o1) (get-signal o2))))
-      (after-delay or-gate-delay
-                   (lambda ()
-                     (set-signal! output new-value)))))
-  (add-action! o1 or-action-procedure)
-  (add-action! o2 or-action-procedure))
-
-; or gate using and-gates and inveters (delay: 2+3+2=7)
-; a || b -> !(!a && !b)
-; 0 || 0 -> !(1  && 1)  = 0
-; 1 || 0 -> !(0  && 1)  = 1
-; 0 || 1 -> !(1  && 0)  = 1
-; 1 || 1 -> !(0  && 0)  = 1
-(define (or-gate o1 o2 output)
-  (let ((o1inv (make-wire)) (o2inv (make-wire)) (both (make-wire)))
-    (inverter o1 o1inv)
-    (inverter o2 o2inv)
-    (and-gate o1inv o2inv both)
-    (inverter both output)))
-
-(define (half-adder a b s c)
-  (let ((d (make-wire)) (e (make-wire)))
-    (or-gate a b d)
-    (and-gate a b c)
-    (inverter c e)
-    (and-gate d e s)))
-
-(define (full-adder a b c-in sum c-out)
-  (let ((s (make-wire))
-        (c1 (make-wire))
-        (c2 (make-wire)))
-    (half-adder b c-in s c1)
-    (half-adder a s sum c2)
-    (or-gate c1 c2 c-out)))
-
 ; testing
-(define input-1 (make-wire))
-(define input-2 (make-wire))
-(define sum (make-wire))
-(define carry (make-wire))
-(probe 'sum sum)
-(probe 'carry carry)
-(half-adder input-1 input-2 sum carry)
-(set-signal! input-1 1)
+(define i1 (make-wire 'i1))
+(define i2 (make-wire 'i2))
+(define out (make-wire 'out))
+(probe 'out out)
+(and-gate i1 i2 out)
+(set-signal! i1 0)
+(set-signal! i2 1)
+(display "call propagate\n")
 (propagate)
+(set-signal! i1 1)
+(set-signal! i2 0)
+(display "call propagate\n")
+(propagate)
+;(get-signal out)
