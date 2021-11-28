@@ -1,7 +1,7 @@
 #lang sicp
 
 (define (app li el)
-  (append li (cons el '())))
+  (append li (list el)))
 
 (define user-initial-environment (scheme-report-environment 5))
 
